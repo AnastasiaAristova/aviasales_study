@@ -1,18 +1,19 @@
-const { VueLoaderPlugin } = require("vue-loader");
+
 const htmlWebpackPlugin = require("html-webpack-plugin");
-//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-//const autoprefixer = require("autoprefixer");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
 mode: 'development',
   entry: {
-    main: "./src/main.js",
+    main: path.resolve(__dirname, "./src/main.js"),
   },
   output: {
-    filename: "[name].[contenthash:8].js",
-    path: path.resolve(__dirname, "dist"),
+    publicPath: "/" /* required for nested routes in vue-router */,
+
+    //filename: "[name].[contenthash:8].js",
+    //path: path.resolve(__dirname, "dist"),
     //chunkFilename: "[name].[contenthash:8].js",
   },
   module: {
@@ -54,14 +55,26 @@ mode: 'development',
     //   chunkFilename: "[name].[contenthash:8].css",
     // }),
     new htmlWebpackPlugin({
-      template: path.resolve(__dirname, "public", "index.html"),
+      template: path.resolve(__dirname,"./public/index.html"),
       //favicon: "./public/favicon.ico",
     }),
+   /* new webpack.DefinePlugin({
+      "process.env.IS_DEVELOPMENT": true,
+    }),*/
+   /* new webpack.ProvidePlugin({
+      process: "process/browser",
+    }),*/
   ],
   resolve: {
-    // alias: {
-    //   vue$: "vue/dist/vue.runtime.esm.js",
-    // },
+    alias: {
+      /* aliases should be duplicated to the jest.config.js in order to use them in tests */
+      "@": path.resolve(__dirname, "./src"),
+      "@pages": path.resolve(__dirname, "./src/views/pages"),
+
+      // /* SCSS aliases */
+     // "~modules": path.resolve(__dirname, "./src/static/styles/modules"),
+      //"~base": path.resolve(__dirname, "./src/static/styles/base"),
+    },
     // extensions: ["*", ".js", ".vue", ".json"],
   },
   optimization: {

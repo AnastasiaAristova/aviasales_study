@@ -1,7 +1,19 @@
 <template>
   <div id="home">
-    <img class="logo" src="../assets/logo.jpeg" alt="logo" />
+    <img class="logo" :src="logoURL" alt="logo" />
 
-    <h1>👋Hello world🌎</h1>
+    <h1>{{title}}</h1>
   </div>
 </template>
+
+<script>
+import image from '../assets/logo.jpeg'
+export default {
+  data() {
+    return {
+      title: '👋Hello world🌎',
+      logoURL: image,
+    }
+  }
+}
+</script>
